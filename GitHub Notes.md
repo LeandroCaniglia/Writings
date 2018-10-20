@@ -48,3 +48,12 @@ Only a fraction of projects use pull requests
 -
 And of those that use them, their use is very skewed.
 The median number of pull requests per project is 2 (44.7% of projects have only 1, and 95% have 25 or less)
+
+If the commits in a pull-request are reworked only the resulting commits are registered
+-
+GitHub records only the commits that result from peer-revisions, not the original commits.
+
+It is common in projects to require a commit squash (merging all different commits into a single one) before the set of commits is merged with the main repository. In other words, some estimation needs to be included for non-observable commits.
+
+Most  pull  requests  appear  as  non-merged even if they are actually merged
+-
