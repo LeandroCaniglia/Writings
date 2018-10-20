@@ -55,5 +55,17 @@ GitHub records only the commits that result from peer-revisions, not the origina
 
 It is common in projects to require a commit squash (merging all different commits into a single one) before the set of commits is merged with the main repository. In other words, some estimation needs to be included for non-observable commits.
 
-Most  pull  requests  appear  as  non-merged even if they are actually merged
+Most  pull  requests  appear  as  non-merged, even if they are actually merged
 -
+At least in some projects, one cannot rely on GitHub’s _Merged_ attribute of a pull request. Therefore, one have to use some heuristics to obtain better merge estimates.
+
+Many interesting repositories, especially those that migrated to GitHub, have an external issue database.
+
+Many active projects do not conduct all their software development in GitHub
+--
+_“Any  serious  project  would  have  to  have  some
+separate infrastructure - mailing lists, forums, irc
+channels and their archives, build farms, etc.  [...]
+Thus while GitHub and all other project hosts are
+used  for  collaboration,  they  are  not  and  can  not
+be a complete solution.”_
