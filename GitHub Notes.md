@@ -69,3 +69,5 @@ channels and their archives, build farms, etc.  [...]
 Thus while GitHub and all other project hosts are
 used  for  collaboration,  they  are  not  and  can  not
 be a complete solution.”_
+
+When committers are not GitHub users or the project description states somehow that the project is a mirror, most likely, there will be development activities not observable from GitHub.
