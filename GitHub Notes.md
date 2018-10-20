@@ -39,3 +39,11 @@ A large portion of repositories are not for software development
 - Blogs (5.8%)
 - No longer accessible (2.5%)
 - Empty (0.7)
+
+Two thirds of projects (71.6% of repositories) are personal
+-
+Committers are users with write access to the repository. If there is only 1 committer, there is no collaboration.
+
+Only a fraction of projects use pull requests. And of those that use them, their use is very skewed
+-
+The median number of pull requests per project is 2 (44.7% of projects have only 1, and 95% have 25 or less)
