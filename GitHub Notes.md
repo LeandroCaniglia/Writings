@@ -32,3 +32,10 @@ Average project activity time = 10 days. P75 = 100 days (meaning that 25% have l
 
 A large portion of repositories are not for software development
 -
+Software development (63.4%)
+Experimental (12.2%)
+Storage (8.3%)
+Academic (7.1%)
+Blogs (5.8%)
+No longer accessible (2.5%)
+Empty (0.7)
