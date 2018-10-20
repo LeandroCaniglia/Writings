@@ -3,7 +3,9 @@
 Root Structure
 --
 **Primitive objects:** User and Project
+
 User has a Profile
+
 Profile has Repos
 
 OAuth
