@@ -46,4 +46,5 @@ Committers are users with write access to the repository. If there is only 1 com
 
 Only a fraction of projects use pull requests
 -
-. And of those that use them, their use is very skewed. The median number of pull requests per project is 2 (44.7% of projects have only 1, and 95% have 25 or less)
+And of those that use them, their use is very skewed.
+The median number of pull requests per project is 2 (44.7% of projects have only 1, and 95% have 25 or less)
