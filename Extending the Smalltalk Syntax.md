@@ -54,4 +54,59 @@ Typically, AST nodes implement the `#acceptVisitor:` message for supporting the 
 `acceptVisitor: aVisitor
    aVisitor acceptBraceNode: self`
 
-You also need to find all visitors that you will need to enhance. To discover them look for implementors of visiting messages in the AST hierarchy such as `#visitCascadNode:`, etc. For other messages, take inspiration from the other nodes, especially, from `CascadeNode`.
+You also need to find all visitors that you will need to enhance. To discover them look for implementors of visiting messages in the AST hierarchy such as `#visitCascadeNode:`, etc. Writing each of the required implementor of `#visitCascadeNode:` is also straightforward:
+
+`visitBraceNode: aBraceNode`
+   self visitCascadeNode: aBraceNode asCascadeNode`
+
+For other messages, take inspiration from the other nodes, especially, from `CascadeNode`.
+
+Improvements
+--
+
+Once you have all of this complete and tested, you may want to improve your implementation a little bit. For instance, some occurrences of these Squeak Braces are just literals. One example would be
+
+`{3. $a. {'hello' 'world'}}`
+
+This is actually equivalent to:
+
+`#(3. $a. #('hello' 'world'))`
+
+However, our implementation would work as if we had written
+
+`(Array new: 3)
+   at: 1 put: 3;
+   at: 2 put: $a;
+   at: 3 put: (
+     (Array new: 2)
+       at: 1 put: 'hello';
+       at: 2 put: 'world';
+       yourself);
+   yourself`
+
+   which sends 9 messages instead of none! To avoid this waste what we can do is to give literal arrays a special treatment. Here is how.
+
+   1. At the top of the AST hierarchy add the method `#isLiteral` returning `false` (this might or might not be there already). Now repeat the same for `LiteralNode` except that this time answer with `true`. Finally, add the `#isLiteral` method to `BraceNode` on the lines of:
+
+   `isLiteral
+      ^elements conform: [:e | e isLiteral]`
+
+  given that the `elements` of our `BraceNode` are themselves instances of AST nodes, this closes the circle.
+
+  2. Next, add the `#asLiteralNode` method to `BraceNode` on the lines of:
+
+  `asLiteralNode
+     ^LiteralNode new
+        value: self literal;
+        start: self star;
+        stop: self stop`
+
+So, the only piece that is misslng is the `#literal` message. Here it is:
+
+`literal
+   ^elements collect: [:e | e literal]`
+
+where
+
+`LiteralNode >> #literal
+   ^self value`
