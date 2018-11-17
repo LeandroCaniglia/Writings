@@ -6,7 +6,7 @@ Does your dialect support Squeak Braces? To answer this question try to evaluate
 
 `{Date today. 3 + 4}`
 
-if you get an Array with the above two elements, today's date and 4, it does. Otherwise, you would get a compilation error. In the latter case you might be interested in extending the syntax of you dialect so to have what I call Squeak Braces.
+if you get an `Array` with the above two elements, today's date and 7, it does. Otherwise, you would get a compilation error. In the latter case you might be interested in extending the syntax of your dialect so to have what I call Squeak Braces.
 
 Where to start? Here is the roadmap:
 
@@ -20,18 +20,22 @@ Now let's see some hints on how to accomplish the tasks above:
 
 1. Finding the AST hierarchy
 --
+
 The Abstract Syntactic Tree (a.k.a. AST) is the object that models the decomposition of a piece of source code into its constituents. This typically includes nodes for both the hole method and also its parts: literals, blocks, variables, etc. Therefore I would start by trying to find a class that includes `Literal` or `LiteralNode` in its name. From this class go to the top of the hierarchy and you will get the complete picture of the place where you will be working next
 
 2. Adding the new class
 --
+
 This simple, just subclass from the root of the AST hierarchy a new class appropriately named. Say `BraceNode`.
 
 3. Adding the required ivars
 --
+
 For sure we will need an ivar to keep the elements of the array. So, add the `elements` ivar. We will likely add one more ivar later though.
 
 4. Transforming the node into a cascade node
 --
+
 The idea here is to add a new method, say `#asCascadeNode` whose job is to answer with the `CascadeNode` that results from the expression
 
 `(Array with: n)
@@ -44,6 +48,7 @@ where `n` is `elements size`. To do this, you need to find the `CascadeNode` in 
 
 5. Add other required methods
 --
+
 Typically, AST nodes implement the `#acceptVisitor:` message for supporting the *Vistor* pattern's double dispatching mechanism. It's implemenation is straightforward:
 
 `acceptVisitor: aVisitor
