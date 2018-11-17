@@ -131,3 +131,14 @@ where
 LiteralNode >> #literal
   ^self value
 ```
+
+Taks 8
+--
+
+Finally, modify your implementations of `#visitBraceNode:` method like This
+```
+visitBraceNode: aBraceNode
+  aBraceNode isLiteral
+    ifTrue: [self visitLiteralNode: aBraceNode asLiteralNode]
+    ifFalse: [self visitCascadenode: aBraceNode asCascadNode]
+```
