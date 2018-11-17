@@ -38,11 +38,13 @@ Task 4: Transforming the node into a cascade node
 
 The idea here is to add a new method, say `#asCascadeNode` whose job is to answer with the `CascadeNode` that results from the expression
 
-`(Array with: n)
-   at: 1 put: (elements at: 1);
-   ...;
-   at: n put: (elements at: 2);
-   yourself`
+```
+(Array with: n)
+       at: 1 put: (elements at: 1);
+       ...;
+       at: n put: (elements at: 2);
+       yourself
+```
 
 where `n` is `elements size`. To do this, you need to find the `CascadeNode` in the AST hierarchy and become familiar with it so you can create one instance of it for the method to return.
 
@@ -84,16 +86,22 @@ However, our implementation would work as if we had written
        yourself);
    yourself`
 
-   which sends 9 messages instead of none! To avoid this waste what we can do is to give literal arrays a special treatment. Here is how.
+which sends 9 messages instead of none! To avoid this waste what we can do is to give literal arrays a special treatment. Here is how.
 
-   1. At the top of the AST hierarchy add the method `#isLiteral` returning `false` (this might or might not be there already). Now repeat the same for `LiteralNode` except that this time answer with `true`. Finally, add the `#isLiteral` method to `BraceNode` on the lines of:
+Task 6
+--
+
+    At the top of the AST hierarchy add the method `#isLiteral` returning `false` (this might or might not be there already). Now repeat the same for `LiteralNode` except that this time answer with `true`. Finally, add the `#isLiteral` method to `BraceNode` on the lines of:
 
    `isLiteral
       ^elements conform: [:e | e isLiteral]`
 
   given that the `elements` of our `BraceNode` are themselves instances of AST nodes, this closes the circle.
 
-  2. Next, add the `#asLiteralNode` method to `BraceNode` on the lines of:
+Task 7
+--
+
+ Next, add the `#asLiteralNode` method to `BraceNode` on the lines of:
 
   `asLiteralNode
      ^LiteralNode new
