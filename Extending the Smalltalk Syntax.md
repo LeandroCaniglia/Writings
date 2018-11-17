@@ -97,19 +97,19 @@ which sends 9 messages instead of none! To avoid this waste what we can do is to
 Task 6
 --
 
-    At the top of the AST hierarchy add the method `#isLiteral` returning `false` (this might or might not be there already). Now repeat the same for `LiteralNode` except that this time answer with `true`. Finally, add the `#isLiteral` method to `BraceNode` on the lines of:
+At the top of the AST hierarchy add the method `#isLiteral` returning `false` (this might or might not be there already). Now repeat the same for `LiteralNode` except that this time answer with `true`. Finally, add the `#isLiteral` method to `BraceNode` on the lines of:
 
 ```
 isLiteral
   ^elements conform: [:e | e isLiteral]
 ```
 
-  given that the `elements` of our `BraceNode` are themselves instances of AST nodes, this closes the circle.
+given that the `elements` of our `BraceNode` are themselves instances of AST nodes, this closes the circle.
 
 Task 7
 --
 
- Next, add the `#asLiteralNode` method to `BraceNode` on the lines of:
+Next, add the `#asLiteralNode` method to `BraceNode` on the lines of:
 
 ```
 asLiteralNode
