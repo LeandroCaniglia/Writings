@@ -40,10 +40,10 @@ The idea here is to add a new method, say `#asCascadeNode` whose job is to answe
 
 ```
 (Array with: n)
-       at: 1 put: (elements at: 1);
-       ...;
-       at: n put: (elements at: 2);
-       yourself
+  at: 1 put: (elements at: 1);
+  ...;
+  at: n put: (elements at: 2);
+  yourself
 ```
 
 where `n` is `elements size`. To do this, you need to find the `CascadeNode` in the AST hierarchy and become familiar with it so you can create one instance of it for the method to return.
@@ -53,13 +53,17 @@ Task 5: Add other required methods
 
 Typically, AST nodes implement the `#acceptVisitor:` message for supporting the *Vistor* pattern's double dispatching mechanism. It's implemenation is straightforward:
 
-`acceptVisitor: aVisitor
+```
+acceptVisitor: aVisitor
    aVisitor acceptBraceNode: self`
+```
 
 You also need to find all visitors that you will need to enhance. To discover them look for implementors of visiting messages in the AST hierarchy such as `#visitCascadeNode:`, etc. Writing each of the required implementor of `#visitCascadeNode:` is also straightforward:
 
-`visitBraceNode: aBraceNode`
-   self visitCascadeNode: aBraceNode asCascadeNode`
+```
+visitBraceNode: aBraceNode
+   self visitCascadeNode: aBraceNode asCascadeNode
+```
 
 For other messages, take inspiration from the other nodes, especially, from `CascadeNode`.
 
@@ -76,15 +80,17 @@ This is actually equivalent to:
 
 However, our implementation would work as if we had written
 
-`(Array new: 3)
-   at: 1 put: 3;
-   at: 2 put: $a;
-   at: 3 put: (
-     (Array new: 2)
-       at: 1 put: 'hello';
-       at: 2 put: 'world';
-       yourself);
-   yourself`
+```
+(Array new: 3)
+  at: 1 put: 3;
+  at: 2 put: $a;
+  at: 3 put: (
+    (Array new: 2)
+      at: 1 put: 'hello';
+      at: 2 put: 'world';
+      yourself);
+  yourself
+```
 
 which sends 9 messages instead of none! To avoid this waste what we can do is to give literal arrays a special treatment. Here is how.
 
@@ -93,8 +99,10 @@ Task 6
 
     At the top of the AST hierarchy add the method `#isLiteral` returning `false` (this might or might not be there already). Now repeat the same for `LiteralNode` except that this time answer with `true`. Finally, add the `#isLiteral` method to `BraceNode` on the lines of:
 
-   `isLiteral
-      ^elements conform: [:e | e isLiteral]`
+```
+isLiteral
+  ^elements conform: [:e | e isLiteral]
+```
 
   given that the `elements` of our `BraceNode` are themselves instances of AST nodes, this closes the circle.
 
@@ -103,18 +111,24 @@ Task 7
 
  Next, add the `#asLiteralNode` method to `BraceNode` on the lines of:
 
-  `asLiteralNode
-     ^LiteralNode new
-        value: self literal;
-        start: self star;
-        stop: self stop`
+```
+asLiteralNode
+  ^LiteralNode new
+    value: self literal;
+    start: self star;
+    stop: self stop
+```
 
 So, the only piece that is misslng is the `#literal` message. Here it is:
 
-`literal
-   ^elements collect: [:e | e literal]`
+```
+literal
+  ^elements collect: [:e | e literal]
+```
 
 where
 
-`LiteralNode >> #literal
-   ^self value`
+```
+LiteralNode >> #literal
+  ^self value
+```
