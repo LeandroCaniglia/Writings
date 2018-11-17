@@ -110,7 +110,6 @@ Task 7
 --
 
 Next, add the `#asLiteralNode` method to `BraceNode` on the lines of:
-
 ```
 asLiteralNode
   ^LiteralNode new
