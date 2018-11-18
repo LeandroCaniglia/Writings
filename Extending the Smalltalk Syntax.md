@@ -1,4 +1,4 @@
-# Extending the Smalltalk Syntax?
+# Extending the Smalltalk Syntax
 **Story 1:** *Adding Squeak Braces*
 --
 
