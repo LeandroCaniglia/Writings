@@ -118,7 +118,7 @@ asLiteralNode
     stop: self stop
 ```
 
-So, the only piece that is misslng is the `#literal` message. Here it is:
+So, the only piece that is missing is the `#literal` message. Here it is:
 
 ```
 literal
@@ -135,10 +135,12 @@ LiteralNode >> #literal
 Taks 8
 --
 
-Finally, modify your implementations of `#visitBraceNode:` method like This
+Finally, modify your implementations of `#visitBraceNode:` method like this
 ```
 visitBraceNode: aBraceNode
   aBraceNode isLiteral
     ifTrue: [self visitLiteralNode: aBraceNode asLiteralNode]
     ifFalse: [self visitCascadenode: aBraceNode asCascadNode]
 ```
+
+Keep in mind that this just a sketch or roadmap. Depending on the internals of your system, some tweaks might be needed. Just make sure your testing coverage is high enough.
