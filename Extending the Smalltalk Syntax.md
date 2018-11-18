@@ -143,4 +143,4 @@ visitBraceNode: aBraceNode
     ifFalse: [self visitCascadenode: aBraceNode asCascadNode]
 ```
 
-Depending on the internals of your system, some additional tweaks might be required. Just make sure your testing coverage is high enough. I almost forgot! In **Task 3** I said that we would likely add another ivar to `BraceNode`, remember? Well, I was thinking in a cache for the result of `#asCascadeNode` or `#asLiteralNode`, depending on the case. This will help to preserver the identity of the `BraceNode` substitute, should the translation be required more than once. No need to do this in advance though. Just keep it in mind.
+Depending on the internals of your system, some additional tweaks might be required. Just make sure your testing coverage is high enough. I almost forgot! In **Task 3** I said that we would likely add another ivar to `BraceNode`, remember? Well, I was thinking in a cache for the result of `#asCascadeNode` or `#asLiteralNode`, depending on the case. This will help to preserve the identity of the `BraceNode` substitute, should the translation be required more than once. No need to do this in advance though. Just keep it in mind.
