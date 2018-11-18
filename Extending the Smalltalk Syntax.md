@@ -26,7 +26,7 @@ The Abstract Syntactic Tree (a.k.a. AST) is the object that models the decomposi
 Task 2: Adding the new class
 --
 
-This simple, just subclass from the root of the AST hierarchy a new class appropriately named. Say `BraceNode`.
+This is simple, just subclass from the root of the AST hierarchy a new class appropriately named. Say `BraceNode`.
 
 Task 3: Adding the required ivars
 --
