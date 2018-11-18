@@ -55,10 +55,10 @@ Typically, AST nodes implement the `#acceptVisitor:` message for supporting the 
 
 ```
 acceptVisitor: aVisitor
-   aVisitor acceptBraceNode: self`
+   aVisitor acceptBraceNode: self
 ```
 
-You also need to find all visitors that you will need to enhance. To discover them look for implementors of visiting messages in the AST hierarchy such as `#visitCascadeNode:`, etc. Writing each of the required implementor of `#visitCascadeNode:` is also straightforward:
+You also need to find all visitors that you will need to enhance. To discover them look for implementors of visiting messages in the AST hierarchy such as `#visitCascadeNode:`, etc. Writing each of the required implementors of `#visitCascadeNode:` is also straightforward:
 
 ```
 visitBraceNode: aBraceNode
@@ -76,7 +76,7 @@ Once you have all of this complete and tested, you may want to improve your impl
 
 This is actually equivalent to:
 
-`#(3. $a. #('hello' 'world'))`
+`#(3 $a #('hello' 'world'))`
 
 However, our implementation would work as if we had written
 
@@ -118,7 +118,7 @@ asLiteralNode
     stop: self stop
 ```
 
-So, the only piece that is missing is the `#literal` message. Here it is:
+So, the only missing piece is the `#literal` message. Here it is:
 
 ```
 literal
@@ -132,7 +132,7 @@ LiteralNode >> #literal
   ^self value
 ```
 
-Taks 8
+Task 8
 --
 
 Finally, modify your implementations of `#visitBraceNode:` method like this
@@ -143,4 +143,6 @@ visitBraceNode: aBraceNode
     ifFalse: [self visitCascadenode: aBraceNode asCascadNode]
 ```
 
-Depending on the internals of your system, some additional tweaks might be required. Just make sure your testing coverage is high enough. I almost forgot! In **Task 3** I said that we would likely add another ivar to `BraceNode`, remember? Well, I was thinking in a cache for the result of `#asCascadeNode` or `#asLiteralNode`, depending on the case. This will help to preserve the identity of the `BraceNode` substitute, should the translation be required more than once. No need to do this in advance though. Just keep it in mind.
+Depending on the internals of your system, some additional tweaks might be required. Just make sure your testing coverage is high enough.
+
+I almost forgot! In **Task 3** I said that we would likely add another ivar to `BraceNode`, remember? Well, I was thinking in a cache for the result of `#asCascadeNode` or `#asLiteralNode`, depending on the case. This will help to preserve the identity of the `BraceNode` substitute, should the translation be required more than once. No need to do this in advance though. Just keep it in mind.
