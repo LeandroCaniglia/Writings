@@ -1,5 +1,5 @@
 # Extending the Smalltalk Syntax?
-*Adding Squeak Braces*
+**Story 1:** *Adding Squeak Braces*
 --
 
 Does your dialect support Squeak Braces? To answer this question try to evaluate the following expression
