@@ -21,7 +21,7 @@ Now let's see some hints on how to accomplish the tasks above:
 Task 1: Finding the AST hierarchy
 --
 
-The Abstract Syntactic Tree (a.k.a. AST) is the object that models the decomposition of a piece of source code into its constituents. This typically includes nodes for both the hole method and also its parts: literals, blocks, variables, etc. Therefore I would start by trying to find a class that includes `Literal` or `LiteralNode` in its name. From this class go to the top of the hierarchy and you will get the complete picture of the place where you will be working next
+The Abstract Syntactic Tree (a.k.a. AST) is the object that models the decomposition of a piece of source code into its constituents. This typically includes nodes for both the whole method and also its parts: literals, blocks, variables, etc. Therefore I would start by trying to find a class that includes `Literal` or `LiteralNode` in its name. From this class go to the top of the hierarchy and you will get the complete picture of the place where you will be working next
 
 Task 2: Adding the new class
 --
