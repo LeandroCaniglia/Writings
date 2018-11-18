@@ -1,5 +1,5 @@
 # Extending the Smalltalk Syntax
-Leandro Caniglia, November 17 2018
+Leandro Caniglia - November 17, 2018
 
 **Story 1:** *Adding Squeak Braces*
 --
