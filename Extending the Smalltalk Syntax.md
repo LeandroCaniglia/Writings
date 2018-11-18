@@ -42,7 +42,7 @@ The idea here is to add a new method, say `#asCascadeNode` whose job is to answe
 (Array with: n)
   at: 1 put: (elements at: 1);
   ...;
-  at: n put: (elements at: 2);
+  at: n put: (elements at: n);
   yourself
 ```
 
