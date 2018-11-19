@@ -60,7 +60,7 @@ acceptVisitor: aVisitor
    aVisitor acceptBraceNode: self
 ```
 
-You also need to find all visitors that you will need to enhance. To discover them look for implementors of visiting messages in the AST hierarchy such as `#visitCascadeNode:`, etc. Writing each of the required implementors of `#visitCascadeNode:` is also straightforward:
+You also need to find all visitors that you will need to enhance. To discover them look for implementors of visiting messages in the AST hierarchy such as `#visitCascadeNode:`, etc. Writing each of the required implementors of `#visitBraceNode:` is also straightforward:
 
 ```
 visitBraceNode: aBraceNode
@@ -72,7 +72,7 @@ For other messages, take inspiration from the other nodes, especially, from `Cas
 Improvements
 --
 
-Once you have all of this complete and tested, you may want to improve your implementation a little bit. For instance, some occurrences of these Squeak Braces are just literals. One example would be
+Once you have all of this complete and tested, you may want to improve your implementation a little bit. For instance, some occurrences of Squeak Braces are just literals. One example would be
 
 `{3. $a. {'hello' 'world'}}`
 
@@ -137,7 +137,7 @@ LiteralNode >> #literal
 Task 8
 --
 
-Finally, modify your implementations of `#visitBraceNode:` method like this
+Finally, modify your implementations of `#visitBraceNode:` like this
 ```
 visitBraceNode: aBraceNode
   aBraceNode isLiteral
