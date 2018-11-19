@@ -80,7 +80,7 @@ This is actually equivalent to:
 
 `#(3 $a #('hello' 'world'))`
 
-However, our implementation would work as if we had written
+However, our implementation would work as if we had written a long series of `#at:put:` messages, one for each of the elements in the array, such as
 
 ```
 (Array new: 3)
