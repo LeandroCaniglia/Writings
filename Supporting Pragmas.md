@@ -43,3 +43,16 @@ Don't forget to consume the closing `$>`, which should be the next token.
 
 Task 4: Save the pragma in the method
 --
+This step is actually not required as we could always resort to the AST for getting the pragma. One could argue that it would be too slow to parse the entire method every time we want to access its pragma, should it have any. However, since pragams occur before any other statements, there is no need to build the entire AST. In fact, the only we need is a service in the parser that would stop parsing right before the parsing of sentences starts.
+
+However, if you prefer avoiding any parsing, when a new `CompiledMethod` is compiled, the `MethodNode` should somehow inject the pragma in it. One way to do this is to add the pragma as the first literal. However, if we do this, how are we going to tell whether the first literal is a pragma or not.
+
+There might be several tricks for this. For instance, in most dialects the `SmallInteger` `0` is never saved in the literal frame. The reason is that there are special bytecodes to operate with it, so the constant `0` doesn't need to go into the literal frame.
+
+Therefore, we could add the pragma as the first literal, and then add `0` as the second. Thus, in order to check and retrieve the pragma of a method we would do the following:
+```
+CompiledMethod >> pragma
+  literals := self literals.
+  ^(literals size >= 2 and: [(literals at: 2) = 0])
+    ifTrue: [literals at: 1]
+```
