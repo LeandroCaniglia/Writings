@@ -17,7 +17,7 @@ Where to start? Here is the roadmap:
 1. Find the Smalltalk Parser in your system
 2. In the Smalltalk Parser find the place where primitives are parsed
 3. Modify the code that parses primitive declarations to recognize pragmas as well
-4. Find a place in the CompiledMethod where to store the pragama annotation
+4. Find a place in the `CompiledMethod` to store the pragama annotation
 
 Now let's see some hints on how to accomplish the tasks above:
 
@@ -28,3 +28,12 @@ Look for selectors like `parse`, `parse:`, `parseMethod:`, `parseLiteral:`, etc.
 Task 2: Find the parsing of primitive declarations
 --
 This is best accomplished debugging the compilation of any method with a primitive declaration. Just create a primitive method and debug its compilation. After some few clicks you should get to the parser method that distinguishes it as primitive.
+
+Task 3: Capture the pragma
+--
+For this task I would recommend starting simple. There will be time for further sophistication. In this case simple means, assume the pragma is just one token, like in
+```
+methodWithPragma
+  <ourPragma>
+  self doSomething; etc.
+```
