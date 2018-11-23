@@ -10,7 +10,7 @@ identityHash
   <primitive: Hash>
   ^0
 ```
-However, not all of them support other types of pragmas, as Pharo does. So, let's see what it would take adding support for them to our dialect.
+However, not all of them support other types of pragmas, as Pharo does. So, let's see what it would take to add support for them to our dialect.
 
 Where to start? Here is the roadmap:
 
@@ -27,3 +27,4 @@ Look for selectors like `parse`, `parse:`, `parseMethod:`, `parseLiteral:`, etc.
 
 Task 2: Find the parsing of primitive declarations
 --
+This is best accomplished debugging any method with a primitive declaration. 
