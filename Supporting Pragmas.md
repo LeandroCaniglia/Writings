@@ -41,5 +41,5 @@ The existing code should complain if the token that comes after `$<` is not `'pr
 
 Don't forget to consume the closing `$>`, which should be the next token.
 
-Task 4: Saving the pragma in the `CompiledMethod`
+Task 4: Save the pragma in the method
 --
