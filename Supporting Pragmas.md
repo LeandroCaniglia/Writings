@@ -27,4 +27,4 @@ Look for selectors like `parse`, `parse:`, `parseMethod:`, `parseLiteral:`, etc.
 
 Task 2: Find the parsing of primitive declarations
 --
-This is best accomplished debugging any method with a primitive declaration. 
+This is best accomplished debugging the compilation of any method with a primitive declaration. Just create a primitive method and debug its compilation. After some few clicks you should get to the parser method that distinguishes it as primitive.
