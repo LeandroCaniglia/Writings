@@ -21,6 +21,9 @@ Where to start? Here is the roadmap:
 
 Now let's see some hints on how to accomplish the tasks above:
 
-Task 1: Finding the Smalltalk Parser
+Task 1: Find the Smalltalk Parser
 --
-Look for selectors like `parse`, `parse:`, `parserMethod:`, `parseLiteral:`, etc. In some dialects the entry point to parsing services is the `Compiler`. You can also look for implementors of `parserClass`, if any.
+Look for selectors like `parse`, `parse:`, `parseMethod:`, `parseLiteral:`, etc. In some dialects the entry point to parsing services is the `Compiler`, so you can debug the initial steps required to compile any expression until you reach the parser. You can also check to see if there are implementors of `parserClass`.
+
+Task 2: Find the parsing of primitive declarations
+--
