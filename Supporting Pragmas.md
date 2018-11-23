@@ -31,23 +31,23 @@ This is best accomplished debugging the compilation of any method with a primiti
 
 Task 3: Parse the pragma
 --
-For this task I would recommend starting simple. There will be time for further sophistication. In this case simple means, assume the pragma is just one token, like in
+For this task I would recommend starting simple. There will be time for further sophistication. In this case "simple" means: assume the pragma is just one token. Much like
 ```
 methodWithPragma
   <ourPragma>
   self doSomething; etc.
 ```
-The existing code should complain if the token that comes after `$<` is not `'primitive:'` (or friends, if any). And this is precisely where we need to branch, save the token as our pragma and (in this first attempt) save it in the `MethodNode` (whatever the name of this class happens to be). Note that there is no need to add a new ivar to `MethodNode`, we can save the token in the same ivar where primitives are held. After all, primitives are numbers while pragamas are not, so we will able to distinguish between them.
+The existing code in the parser should complain if the token that comes after `$<` is not `'primitive:'` (or friends). And this is precisely where we need to branch, save the token as our pragma and (in this first attempt) save it in the `MethodNode`. Note that there is no need to add a new ivar to `MethodNode`, we can save the token in the same ivar where primitives are held. After all, primitives are numbers while pragamas are not, so we will be able to distinguish between them.
 
-Don't forget to consume the closing `$>`, which should be the next token.
+Don't forget to consume the closing `$>`, which should be the next token. Otherwise issue a parsing error.
 
 Task 4: Save the pragma in the method
 --
-This step is actually not required as we could always resort to the AST for getting the pragma. One could argue that it would be too slow to parse the entire method every time we want to access its pragma, should it have any. However, since pragams occur before any other statements, there is no need to build the entire AST. In fact, the only we need is a service in the parser that would stop parsing right before the parsing of sentences starts.
+This step is actually not required as we could always resort to the AST for getting the pragma. One could argue that it would be too slow to parse the entire method every time we want to access its pragma, should it have any. However, since pragams occur before any other statements, there is no need to build the entire AST. In fact, we would only need a service in the parser that will stop parsing right before the parsing of the method sentences starts.
 
 However, if you prefer avoiding any parsing, when a new `CompiledMethod` is compiled, the `MethodNode` should somehow inject the pragma in it. One way to do this is to add the pragma as the first literal. However, if we do this, how are we going to tell whether the first literal is a pragma or not.
 
-There might be several tricks for this. For instance, in most dialects the `SmallInteger` `0` is never saved in the literal frame. The reason is that there are special bytecodes to operate with it, so the constant `0` doesn't need to go into the literal frame.
+There might be several tricks for this. For instance, in most dialects `0` (the `SmallInteger`) is never saved in the literal frame. The reason is that there are special bytecodes to operate with it, so the constant `0` doesn't need to go into the literal frame.
 
 Therefore, we could add the pragma as the first literal, and then add `0` as the second. Thus, in order to check and retrieve the pragma of a method we would do the following:
 ```
@@ -56,8 +56,10 @@ CompiledMethod >> pragma
   ^(literals size >= 2 and: [(literals at: 2) = 0])
     ifTrue: [literals at: 1]
 ```
-Note that the method will answer with `nil` if it has no pragma. Note also that the same trick will work if you decide to add support for multiple pragmas.
+Note that the method will answer with `nil` if it has no pragma.
 
 Final words
 --
 The simple case I've depicted here is for adding support to _unary_ pragmas. You might want to allow for _binary_ and _keyword_ pragmas as well. The idea is the same. Just keep reading more tokens in **Task 3**, until `$>` is reached. Take a look at how Pharo does this for inspiration, starting at `RBParser >> parsePragma`. Then adapt the idea to your case.
+
+If you decide to add support for multiple pragmas, note that the same trick we used in **Task 4** will work. You only need to move the `0` right after the last injection in the literal frame.
