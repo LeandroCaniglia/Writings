@@ -56,3 +56,8 @@ CompiledMethod >> pragma
   ^(literals size >= 2 and: [(literals at: 2) = 0])
     ifTrue: [literals at: 1]
 ```
+Note that the method will answer with `nil` if it has no pragma. Note also that the same trick will work if you decide to add support for multiple pragmas.
+
+Final words
+--
+The simple case I've depicted here is for adding support to _unary_ pragmas. You might want to allow for _binary_ and _keyword_ pragmas as well. The idea is the same. Just keep reading more tokens in **Task 3**, until `$>` is reached. Take a look at how Pharo does this for inspiration, starting at `RBParser >> parsePragma`. Then adapt the idea to your case.
