@@ -45,9 +45,9 @@ Task 4: Save the pragma in the method
 --
 This step is actually not required as we could always resort to the AST for getting the pragma. One could argue that it would be too slow to parse the entire method every time we want to access its pragma, should it have any. However, since pragams occur before any other statements, there is no need to build the entire AST. In fact, we would only need a service in the parser that will stop parsing right before the parsing of the method sentences starts.
 
-However, if you prefer avoiding any parsing, when a new `CompiledMethod` is compiled, the `MethodNode` should somehow inject the pragma in it. One way to do this is to add the pragma as the first literal. However, if we do this, how are we going to tell whether the first literal is a pragma or not.
+However, if you insist in avoiding any parsing, when a new `CompiledMethod` is compiled, the `MethodNode` should somehow inject the pragma in it. One way to do this is to add the pragma as the first literal. A practice also known as _stealing literals_. However, if we steal the first literal, how are we going to tell whether this first literal is a pragma or not.
 
-There might be several tricks for this. For instance, in most dialects `0` (the `SmallInteger`) is never saved in the literal frame. The reason is that there are special bytecodes to operate with it, so the constant `0` doesn't need to go into the literal frame.
+There might be several tricks for solving this. For instance, in most dialects `0` (the `SmallInteger`) is never saved in the literal frame. The reason is that there are special bytecodes to operate with it, so the constant `0` doesn't need to go into the literal frame.
 
 Therefore, we could add the pragma as the first literal, and then add `0` as the second. Thus, in order to check and retrieve the pragma of a method we would do the following:
 ```
@@ -62,4 +62,4 @@ Final words
 --
 The simple case I've depicted here is for adding support to _unary_ pragmas. You might want to allow for _binary_ and _keyword_ pragmas as well. The idea is the same. Just keep reading more tokens in **Task 3**, until `$>` is reached. Take a look at how Pharo does this for inspiration, starting at `RBParser >> parsePragma`. Then adapt the idea to your case.
 
-If you decide to add support for multiple pragmas, note that the same trick we used in **Task 4** will work. You only need to move the `0` right after the last injection in the literal frame.
+If you decide to add support for multiple pragmas, note that you will need to steal _n + 1_ literals rather than _2_ as we did in **Task 4**. You only need to move the `0` right after the last injection in the literal frame.
