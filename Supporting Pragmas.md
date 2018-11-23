@@ -29,7 +29,7 @@ Task 2: Find the parsing of primitive declarations
 --
 This is best accomplished debugging the compilation of any method with a primitive declaration. Just create a primitive method and debug its compilation. After some few clicks you should get to the parser method that distinguishes it as primitive.
 
-Task 3: Capture the pragma
+Task 3: Parse the pragma
 --
 For this task I would recommend starting simple. There will be time for further sophistication. In this case simple means, assume the pragma is just one token, like in
 ```
@@ -37,3 +37,9 @@ methodWithPragma
   <ourPragma>
   self doSomething; etc.
 ```
+The existing code should complain if the token that comes after `$<` is not `'primitive:'` (or friends, if any). And this is precisely where we need to branch, save the token as our pragma and (in this first attempt) save it in the `MethodNode` (whatever the name of this class happens to be). Note that there is no need to add a new ivar to `MethodNode`, we can save the token in the same ivar where primitives are held. After all, primitives are numbers while pragamas are not, so we will able to distinguish between them.
+
+Don't forget to consume the closing `$>`, which should be the next token.
+
+Task 4: Saving the pragma in the `CompiledMethod`
+--
