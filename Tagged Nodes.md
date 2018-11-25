@@ -122,4 +122,4 @@ ForeignNode >> value: aString
 
 Task 5: Compile/Process
 --
-Now that we have all the pieces in place we can use them to, at least, format and/or color the foreign code. This is simply achieved by asking the `ForeignNode` its `ast` or its formatted/colored representation. You could also provide more advanced compilation options such as the ones we have mentioned in **Task 3** or even take advantage of another technique we will discuss in the next story about the `HybridCompiler`.
+Now that we have all the pieces in place we can use them to, at least, format and/or color the foreign code. This is simply achieved by asking the `ForeignNode` its `ast` or its formatted/colored representation. You could also provide more advanced featrues such as the ones we have mentioned in **Task 3**, or even take advantage of yet another technique that we will discuss in the next story which is _Hybrid Compilation_.
