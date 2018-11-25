@@ -109,8 +109,8 @@ In this way, when the `TaggedNode` receives the `#body:` message with the foreig
 TaggedNode >> body: aString
   value := Registry
     at: tag
-    ifAbsent: [StringNode new]
-    ifPresent: [:p | ForeignNode new parser: p].
+    ifPresent: [:p | ForeignNode new parser: p]
+    ifAbsent: [StringNode new].
   value value: aString
 ```
 The `ForeignNode` will have two ivars: `parser` and `ast`. The latter will be computed as follows:
