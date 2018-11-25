@@ -38,7 +38,7 @@ Can we think of any other? Backticks are tempting. The problem is that they woul
 We need flexibility and that's why tags are a good choice.
 
 Using tags we will be able to inline foreign code like This
-```
+```json
 jsonCoordinates
   ^<json>
     {
