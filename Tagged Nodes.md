@@ -85,3 +85,12 @@ At this point we are ready to
 
 Task 3: Decide how to process the foreign script
 --
+At this point we have access to the body of the `TaggedNode`. What do we do with it? Well, this depends on the semantics we want to give it. In the case of JSON, for instance, it would be enough to parse it using a JSON parser, and then format it using a JSON writer. We could also desire to painting it so it looks great in our environment.
+
+In other cases, such as the one where the foreign code is Assembly, we could decide to go a step further and transform it into machine code. This will bring two capabilities: (1) Parsing and formatting/painting the Assembly source code and (2) Making the node answer with the corresponding machine code when the method is executed.
+
+There are many other possibilities. In the case of JavaScript or any other programming language, we could decide to execute it on top of Smalltalk (at least up to some extent, this should be feasible).
+
+On the other end of our wide horizon of possibilities there is one that consists in doing nothing, i.e, simply keeping the body as a `String` with no special semantics. This is useful for experimentation. For instance, if you plan to write a parser for inlining VBA code, before embarking in such a project, you might want to see how the tagged code would look. You will need to format it yourself and will have no coloring available. However, it will bring a secondary benefit: you will not have to worry about duplicating embedded quotes (in VBA the quote is the comment delimiter).
+
+The last case is the simpler one. Still it requires the introduction of a new kind of literal node, which we can call `StringNode`. So, instead of keeping the body in the `ForeignNode` as a `String`, we will create a `StringNode` with the body as its value and will keep this new node as the value of the `ForeignNode`. This indirection will provide the flexibility we need for making free use of `ForeignNodes`.
