@@ -106,12 +106,10 @@ Since we are planning for support of different languages, we will need a global 
 In this way, when the `TaggedNode` receives the `#body:` message with the foreign code as the argument, it will be able to enter the `Registry` with its `tag` and get the corresponding `parser` from there. If there is none, the `TaggedNode` will resort to `StringNode`, passing it the body and keeping this node in its `value` ivar.
 ```smalltalk
 TaggedNode >> body: aString
-  | parser |
-  parser := Registry at: tag ifAbsent: [].
-  value := parser notNil
-    ifTrue: [ForeignNode new parser: parser]
-    ifFalse: [StringNode new].
+  value := Registry
+    at: tag
+    ifAbsent: [StringNode new]
+    ifPresent: [:p | ForeignNode new parser: p].
   value value: aString
 ```
-
 The `ForeignNode` will have two ivars: `ast` and `parser`.
