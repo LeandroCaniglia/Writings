@@ -1,5 +1,5 @@
 # Extending the Smalltalk Syntax
-Leandro Caniglia - November 17, 2018
+Leandro Caniglia - November 24, 2018
 
 **Story 3:** *Tagged Nodes*
 --
@@ -27,15 +27,15 @@ Where to start? Here is the roadmap:
 Task 1: Smalltalk tags?
 --
 
-Before making a decision for tags, let's see which other options we have. In order to inline foreign scripts, we must tell the Smalltalk parser how to delimit them. There are several delimiters in Smalltalk:
+Before making a decision for tags, let's see which other options do we have. In order to inline foreign scripts, we must tell the Smalltalk parser how to delimit them. There are several delimiters in Smalltalk:
 
 - White space
 - Single and double quotes
 - Parenthesis and brackets (both square and curly)
 
-Can we think of any other? Backticks are tempting. The problem is that they would only work for a single semantics. For example. Say we decide to delimit JSON using backticks; how would we delimit HTML or CSS or JavaScript or Assembler or C if in the future we have a need for any of these?
+Can we think of any other? Backticks are tempting. The problem is that they would only work for a single semantics. For example. Say we decide to delimit JSON using backticks; how would we delimit HTML or CSS or JavaScript or Assembler or C, should the future bring a need for any of them?
 
-We need flexibility and that's why tags are a good choice.
+We want flexibility and that's why tags are a good choice.
 
 Using tags we will be able to inline foreign code like This
 ```json
@@ -47,7 +47,7 @@ jsonCoordinates
     }
   </json>
 ```
-And how do we make sure that tags do not confuse the Smalltalk parser? To answer this question think of all the places where `$<` is misplaced for the Smalltalk syntax:
+And how do we make sure that tags do not confuse the Smalltalk parser? To answer this question think of all the places where `$<` is misplaced in regards to the Smalltalk syntax:
 
 - On the right of assignments
 - When a message argument is expected
@@ -62,4 +62,7 @@ In other words, none of the following sequence of characters is conforms to the 
 
 See? Every potential syntax error is an opportunity for extending the syntax!
 
-  
+Of course, angle brackets are already legal in the Smalltalk syntax as pragma delimiters. But pragmas are illegal when placed in assignments, arguments and returns. To be valid, they must start a Smalltalk statement. And this is precisely why we will forbid tags at the beginning of statements and restrict them to assignments, arguments and returns.
+
+Task 2: Add the `TaggedNode` class
+--
