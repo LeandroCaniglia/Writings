@@ -33,7 +33,7 @@ Before making a decision for tags, let's see which other options do we have. In 
 - Single and double quotes
 - Parenthesis and brackets (both square and curly)
 
-Can we think of any other? Backticks are tempting. The problem is that they would only work for a single semantics. For example. Say we decide to delimit JSON using backticks; how would we delimit HTML or CSS or JavaScript or Assembler or C, should the future bring a need for any of them?
+Can we think of any other? Backticks are tempting. The problem is that they would only work for a single semantics. Say we decide to delimit JSON using backticks; how would we delimit HTML or CSS or JavaScript or Assembly or C, should the future bring a need for any of them?
 
 We want flexibility and that's why tags are a good choice.
 
@@ -53,7 +53,7 @@ And how do we make sure that tags do not confuse the Smalltalk parser? To answer
 - When a message argument is expected
 - On the right of the return symbol
 
-In other words, none of the following sequence of characters is conforms to the Smalltalk syntax:
+In other words, none of the following sequence of characters conforms to the Smalltalk syntax:
 
 - `temp := <`..
 - `3 + <`...
@@ -64,5 +64,19 @@ See? Every potential syntax error is an opportunity for extending the syntax!
 
 Of course, angle brackets are already legal in the Smalltalk syntax as pragma delimiters. But pragmas are illegal when placed in assignments, arguments and returns. To be valid, they must start a Smalltalk statement. And this is precisely why we will forbid tags at the beginning of statements and restrict them to assignments, arguments and returns.
 
-Task 2: Add the `TaggedNode` class
+Task 2: Add the class for tagged nodes
 --
+A tagged node is a way of delimiting foreign code and as such it is a new type of literal. So, add a subclass of `LiteralNode` named `TaggedNode`. This subclass will add the `tag` ivar that will link its instances to their specific meaning.
+
+As we depticted above, instances of `TaggedNode` need to be instantiated by the parser in the following four cases:
+
+- When parsing an argument of a keyword message
+- When parsing the argument of a binary message
+- When parsing the expression of an assignment
+- When parsing the expression of a return node
+
+This means that we need to modify essentially four methods so that they now check whether the next character is `$<`. If it is not, the code remains unchanged. If it is, then the code branches to a new method that will _scan_ the `TaggedNode` or fail (if there is no closing tag, etc.).
+
+I've used the word _scan_ because in order to form a `TaggedNode` we will need to scan the input at the character level (usually the parser deals with tokens provided by the scanner).
+
+When scanning the opening tag we will need to read the input until `$>` is reached (issuing and error if it's missing). This will give us the value for the `tag` ivar of the `TaggedNode`. At this time we will also know that the closing tag should be `'/', tag`. So we can read the _body_ of the foreign code until `'</', tag ,'>'` is found (error if not).
