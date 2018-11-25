@@ -29,5 +29,21 @@ Task 1: Smalltalk tags?
 
 Before making a decision for tags, let's see which other options we have. In order to inline foreign scripts, we must tell the Smalltalk parser how to delimit them. There are several delimiters in Smalltalk:
 
- a. White space
- b. Single and double quotes
+- White space
+- Single and double quotes
+- Parenthesis and brackets (both square and curly)
+
+Can we think of any other? Backticks are tempting. The problem is that they would only work for a single semantics. For example. Say we decide to delimit JSON using backticks; how would we delimit HTML or CSS or JavaScript or Assembler or C if in the future we have a need for any of these?
+
+We need flexibility and that's why tags are a good choice.
+
+Using tags we will be able to inline foreign code like This
+```
+jsonCoordinates
+  ^<json>
+    {
+      "latitude": 48.858093,
+      "longitude": 2.294694
+    }
+  </json>
+```
