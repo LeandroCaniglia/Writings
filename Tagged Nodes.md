@@ -117,5 +117,5 @@ The `ForeignNode` will have two ivars: `parser` and `ast`. The latter will be co
 
 ```smalltalk
 ForeignNode >> value: aString
-  ast := parser parse: aString for: self.
+  ast := parser parse: aString
 ```
