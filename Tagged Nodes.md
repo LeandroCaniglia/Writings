@@ -22,7 +22,7 @@ Where to start? Here is the roadmap:
 2. Introduce a new subclass of `LiteralNode` named `TaggedNode`.
 3. Consider the introduction of foreign parsers such as a `JsonParser`.
 4. Introduce a new class of AST node named `ForeignNode`.
-5. Combine all the features above.
+5. Process the body of the foreign script, according to its semantics.
 
 Task 1: Smalltalk tags?
 --
@@ -79,4 +79,9 @@ This means that we need to modify essentially four methods so that they now chec
 
 I've used the word _scan_ because in order to form a `TaggedNode` we will need to scan the input at the character level (usually the parser deals with tokens provided by the scanner).
 
-When scanning the opening tag we will need to read the input until `$>` is reached (issuing and error if it's missing). This will give us the value for the `tag` ivar of the `TaggedNode`. At this time we will also know that the closing tag should be `'/', tag`. So we can read the _body_ of the foreign code until `'</', tag ,'>'` is found (error if not).
+When scanning the opening tag we will need to read the input until `$>` is reached (issuing and error if it's not). This will give us the value for the `tag` ivar of the `TaggedNode`. At this time we will also know that the closing tag should be `'/', tag`. So we can read the _body_ of the foreign code until `'</', tag ,'>'` is found (error if not).
+
+At this point we are ready to
+
+Task 3: Decide how to process the foreign script
+--
