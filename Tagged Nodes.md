@@ -104,6 +104,7 @@ So far we have discussed two new nodes: `TaggedNode` and `StringNode`, both subc
 Since we are planning for support of different languages, we will need a global `Registry` of available parsers/compilers. For instance, the package that loads the JSON parser will be able to register the `<json>` tag with the corresponding parser. Similarly for `<html>`, `<css>`, `<asm>`, `<js>`, `<vba>`, etc.
 
 In this way, when the `TaggedNode` receives the `#body:` message with the foreign code as the argument, it will be able to enter the `Registry` with its `tag` and get the corresponding `parser` from there. If there is none, the `TaggedNode` will resort to `StringNode`, passing it the body and keeping this node in its `value` ivar.
+
 ```smalltalk
 TaggedNode >> body: aString
   value := Registry
@@ -112,4 +113,9 @@ TaggedNode >> body: aString
     ifPresent: [:p | ForeignNode new parser: p].
   value value: aString
 ```
-The `ForeignNode` will have two ivars: `ast` and `parser`.
+The `ForeignNode` will have two ivars: `parser` and `ast`. The latter will be computed as follows:
+
+```smalltalk
+ForeignNode >> value: aString
+	ast := parser parse: aString for: self.
+```
