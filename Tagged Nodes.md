@@ -108,7 +108,7 @@ In this way, when the `TaggedNode` receives the `#body:` message with the foreig
 ```smalltalk
 TaggedNode >> body: aString
   value := Registry
-    at: tag
+  at: tag
     ifPresent: [:p | ForeignNode new parser: p]
     ifAbsent: [StringNode new].
   value value: aString
@@ -117,5 +117,5 @@ The `ForeignNode` will have two ivars: `parser` and `ast`. The latter will be co
 
 ```smalltalk
 ForeignNode >> value: aString
-	ast := parser parse: aString for: self.
+  ast := parser parse: aString for: self.
 ```
