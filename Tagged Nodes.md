@@ -23,3 +23,11 @@ Where to start? Here is the roadmap:
 3. Consider the introduction of foreign parsers such as a `JsonParser`.
 4. Introduce a new class of AST node named `ForeignNode`.
 5. Combine all the features above.
+
+Task 1: Smalltalk tags?
+--
+
+Before making a decision for tags, let's see which other options we have. In order to inline foreign scripts, we must tell the Smalltalk parser how to delimit them. There are several delimiters in Smalltalk:
+
+ a. White space
+ b. Single and double quotes
