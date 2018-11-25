@@ -91,8 +91,27 @@ In other cases, such as the one where the foreign code is Assembly, we could dec
 
 There are many other possibilities. In the case of JavaScript or any other programming language, we could decide to execute it on top of Smalltalk (at least up to some extent, this should be feasible).
 
-On the other end of our wide horizon of possibilities there is one that consists in doing nothing, i.e, simply keeping the body as a `String` with no special semantics. This is useful for experimentation. For instance, if you plan to write a parser for inlining VBA code, before embarking in such a project, you might want to see how the tagged code would look. You will need to format it yourself and will have no coloring available. However, it will bring a secondary benefit: you will not have to worry about duplicating embedded quotes (in VBA the quote is the comment delimiter).
+On the other end of our wide horizon of possibilities there is one that consists in doing nothing, i.e, simply keeping the body as a `String` with no special semantics. This is useful for experimentation. For instance, if you plan to write a parser for inlining VBA code, before embarking in such a project, you might want to see how the tagged code would look. You will need to format it yourself and will have no coloring available. However, it will bring a secondary benefit: you will not have to worry about duplicating embedded quotes (in VBA the quote is the comment separator).
 
-The last case is the simpler one. Still it requires the introduction of a new kind of literal node, which we can call `StringNode`. So, instead of keeping the body in the `ForeignNode` as a `String`, we will create a `StringNode` with the body as its value and will keep this new node as the value of the `ForeignNode`. This indirection will provide the flexibility we need for making free use of `ForeignNodes`.
+The last case is the simpler one. Still, it requires the introduction of a new kind of literal node, which we will call `StringNode`. So, instead of keeping the body in the `TaggedNode` as a `String`, we will create a `StringNode` with the body as its `value` and will keep this new node as the `value` of the `TaggedNode`. This indirection will provide the flexibility we need for making free use of `TaggedNode`.
 
-Note also that while making these decisions you should keep in mind that sometimes it is not necessary to implement a parser of the entire specification of the foreign language. For instance, if you will only deal with C-Tyes and C-Structures, you don't need to parse arbitrary C, you just need to parse these declarations. The same might be true with other languages. Usually you will only inline a limited subset of them.
+Note also that while making these decisions you should keep in mind that sometimes it is not necessary to implement a parser of the entire specification of the foreign language. For instance, if you will only deal with C-Types and C-Structures, you don't need to parse arbitrary C, you just need to parse these declarations. The same might be true with other languages. Usually you will only inline a limited subset of them. The key here is to create the machinery that will make further enhancements easier and consistent.
+
+Task 4: The foreign node
+--
+So far we have discussed two new nodes: `TaggedNode` and `StringNode`, both subclasses of `LiteralNode`. The ivar `tag` in `TaggedNode` holds the node's tag string. Where we have to be careful is in deciding the contents of the `value` ivar because this is where the semantics enters the game.
+
+Since we are planning for support of different languages, we will need a global `Registry` of available parsers/compilers. For instance, the package that loads the JSON parser will be able to register the `<json>` tag with the corresponding parser. Similarly for `<html>`, `<css>`, `<asm>`, `<js>`, `<vba>`, etc.
+
+In this way, when the `TaggedNode` receives the `#body:` message with the foreign code as the argument, it will be able to enter the `Registry` with its `tag` and get the corresponding `parser` from there. If there is none, the `TaggedNode` will resort to `StringNode`, passing it the body and keeping this node in its `value` ivar.
+```ruby
+TaggedNode >> body: aString
+  | parser |
+  parser := Registry at: tag ifAbsent: [].
+  value := parser notNil
+    ifTrue: [ForeignNode new parser: parser]
+    ifFalse: [StringNode new].
+  value value: aString
+```
+
+The `ForeignNode` will have two ivars: `ast` and `parser`.
