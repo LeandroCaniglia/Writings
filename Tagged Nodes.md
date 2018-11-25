@@ -27,7 +27,7 @@ Where to start? Here is the roadmap:
 Task 1: Smalltalk tags?
 --
 
-Before making a decision for tags, let's see which other options do we have. In order to inline foreign scripts, we must tell the Smalltalk parser how to delimit them. There are several delimiters in Smalltalk:
+Before making a decision for tags, let's see which other options do we have. In order to inline foreign scripts, we must tell the Smalltalk parser how to delimit them. There are several delimiters already taken in Smalltalk:
 
 - White space
 - Single and double quotes
@@ -62,7 +62,7 @@ In other words, none of the following sequence of characters conforms to the Sma
 
 See? Every potential syntax error is an opportunity for extending the syntax!
 
-Of course, angle brackets are already legal in the Smalltalk syntax as pragma delimiters. But pragmas are illegal when placed in assignments, arguments and returns. To be valid, they must start a Smalltalk statement. And this is precisely why we will forbid tags at the beginning of statements and restrict them to assignments, arguments and returns.
+Of course, angle brackets `<...>` are already legal in the Smalltalk syntax as pragma delimiters. But pragmas are illegal when placed in assignments, arguments and returns. To be valid, they must start a Smalltalk statement. And this is precisely why we will forbid tags at the beginning of statements and restrict them to assignments, arguments and returns.
 
 Task 2: Add the class for tagged nodes
 --
@@ -75,11 +75,11 @@ As we depticted above, instances of `TaggedNode` need to be instantiated by the 
 - When parsing the expression of an assignment
 - When parsing the expression of a return node
 
-This means that we need to modify essentially four methods so that they now check whether the next character is `$<`. If it is not, the code remains unchanged. If it is, then the code branches to a new method that will _scan_ the `TaggedNode` or fail (if there is no closing tag, etc.).
+This means that we need to modify essentially four methods so that they now check whether the next character is `$<`. If it is not, the original code regains control. Otherwise, the code branches to a new method that will _scan_ the `TaggedNode` or fail (if there is no closing tag, etc.).
 
-I've used the word _scan_ because in order to form a `TaggedNode` we will need to scan the input at the character level (usually the parser deals with tokens provided by the scanner).
+I've used the verb _to scan_ because in order to form a `TaggedNode` we will need to scan the input at the character level (usually the parser deals with tokens provided by the scanner).
 
-When scanning the opening tag we will need to read the input until `$>` is reached (issuing and error if it's not). This will give us the value for the `tag` ivar of the `TaggedNode`. At this time we will also know that the closing tag should be `'/', tag`. So we can read the _body_ of the foreign code until `'</', tag ,'>'` is found (error if not).
+When scanning the opening tag we will need to read the input until `$>` is reached (issuing and error if it isn't). This will give us the value for the `tag` ivar of the `TaggedNode`. At this time we will also know that the closing tag should be `'/', tag`. So we can read the _body_ of the foreign code until `'</', tag ,'>'` is found (error if not).
 
 At this point we are ready to
 
@@ -108,12 +108,12 @@ In this way, when the `TaggedNode` receives the `#body:` message with the foreig
 ```smalltalk
 TaggedNode >> body: aString
   value := Registry
-  at: tag
-    ifPresent: [:p | ForeignNode new parser: p]
-    ifAbsent: [StringNode new].
+    at: tag
+      ifPresent: [:p | ForeignNode new parser: p]
+      ifAbsent: [StringNode new].
   value value: aString
 ```
-The `ForeignNode` will have two ivars: `parser` and `ast`. The latter will be computed as follows:
+The `ForeignNode` will have two ivars: `parser` and `ast`. The latter is computed as follows:
 
 ```smalltalk
 ForeignNode >> value: aString
