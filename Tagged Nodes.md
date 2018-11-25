@@ -47,3 +47,19 @@ jsonCoordinates
     }
   </json>
 ```
+And how do we make sure that tags do not confuse the Smalltalk parser? To answer this question think of all the places where `$<` is misplaced for the Smalltalk syntax:
+
+- On the right of assignments
+- When a message argument is expected
+- On the right of the return symbol
+
+In other words, none of the following sequence of characters is conforms to the Smalltalk syntax:
+
+- `temp := <`..
+- `3 + <`...
+- `self msg: <`...
+- `^<`...
+
+See? Every potential syntax error is an opportunity for extending the syntax!
+
+  
