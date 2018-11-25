@@ -87,7 +87,7 @@ Task 3: Decide how to process the foreign script
 --
 At this point we have access to the body of the `TaggedNode`. What do we do with it? Well, this depends on the semantics we want to give it. In the case of JSON, for instance, it would be enough to parse it using a JSON parser, and then format it using a JSON writer. We could also paint it with colors and emphases, so to make it look great in our environment.
 
-In other cases, such as the one where the foreign code is Assembly, we could decide to go a step further and transform it into machine code. This will bring two capabilities: (1) Parsing and formatting/painting the Assembly source code and (2) Making the node answer with the corresponding machine code when the method is executed.
+In other cases, such as the one where the foreign code is Assembly, we could decide to go a step further and compile it into machine code. This will bring two capabilities: (1) Parsing and formatting/painting the Assembly source code and (2) Making the node answer with the corresponding machine code when the method is executed.
 
 There are many other possibilities. In the case of JavaScript or any other programming language, we could decide to execute it on top of Smalltalk (at least up to some extent, this should be feasible).
 
