@@ -14,9 +14,21 @@ jsonCoordinates
       "longitude": 2.294694
     }
 ```
-Note how this is slightly different from what we did in Story 3. Here `<json>` is not a _tag_ but a _pragma_ (there is no closing tag). We are using this pragma to make it clear that we will be using a foreign compiler.
 
-Here is a similar example with JavaScript
+Where to start? Here is the roadmap:
+
+1. Discuss the introduction of pragmas for enabling foreign compilation.
+2. Introduce a new subclass of `LiteralNode` named `TaggedNode`.
+3. Consider the introduction of foreign parsers such as a `JsonParser`.
+4. Introduce a new class of AST node named `ForeignNode`.
+5. Process the body of the foreign script, according to its semantics.
+
+Task 1: Discussion
+--
+
+Let's start by noticing how our example above is slightly different from what we did in Story 3. Here `<json>` is not a _tag_ but a _pragma_ (there is no closing tag). We are using this pragma to make it clear that we will be using a foreign compiler.
+
+A similar example with JavaScript
 ```javascript
 canSimulateCase
 	<js>
@@ -24,7 +36,8 @@ canSimulateCase
 		return !$scope.isProcessingCase(c)
 	};
 ```
-The difference with tagged nodes is that here the entire method is written in a foreign language. Why this variation is interesting? Because it will allow us to pass foreign methods Smalltalk arguments. Here is an example:
+
+One difference with tagged nodes is that here the _entire method_ is written in a foreign language. Why this variation is interesting? Because it will allow us to pass Smalltalk arguments to foreign method. Like this:
 ```smalltalk
 jsonCoordinates: lat longitue: long
   <json>
