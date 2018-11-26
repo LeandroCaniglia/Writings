@@ -85,4 +85,4 @@ There are several things to explain here:
 
 - The `#body` method, with the help of the `smalltalk` parser, answers with the foreign _body_, i.e., the part of the `source` code that comes after the pragma.
 - The `#template` method answers with the source code of the Smalltalk method that will actually be executed when the hybrid method is invoked.
-- The `ForeignMethod` class is a subclass of `CompiledMethod` that adds support to certain messages required for these hybrid methods.
+- The `ForeignMethod` class is a subclass of `CompiledMethod` that adds support to certain messages required from hybrid methods.
