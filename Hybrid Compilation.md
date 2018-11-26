@@ -52,9 +52,9 @@ Note that I've used `$#` to mark what follows as an argument. We don't want to r
 
 Task 2: Hybrid Compilation
 --
-If we get back to our examples above, we will see that these methods have two parts: (1) a Smalltalk header including the pragma and (2) foreign code. This accounts for hybrid compilation. We need to, at least, parse the beginning of method to read the pragma that tells which compiler to use and then pass the body to said compiler. For doing all of this we will need the following classes
+If we get back to our examples above, we will see that these methods have two parts: (1) a Smalltalk header including the pragma and (2) the foreign code. This accounts for hybrid compilation. We need to, at least, parse the beginning of the method to read the pragma that tells which compiler to pick, and then pass it the body. For doing all of this we will need the following class
 
-```
+```ruby
 Object
 	subclass: #HybridCompiler
 	instanceVariableNames: 'source smalltalk foreing result'
