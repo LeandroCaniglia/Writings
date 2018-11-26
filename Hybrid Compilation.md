@@ -18,7 +18,7 @@ jsonCoordinates
 Where to start? Here is the roadmap:
 
 1. Discuss the introduction of pragmas for enabling foreign compilation.
-2. Introduce a new subclass of `LiteralNode` named `TaggedNode`.
+2. Introduce the `HybridCompiler` class.
 3. Consider the introduction of foreign parsers such as a `JsonParser`.
 4. Introduce a new class of AST node named `ForeignNode`.
 5. Process the body of the foreign script, according to its semantics.
@@ -48,4 +48,16 @@ jsonCoordinates: lat longitue: long
 ```
 meaning that the foreign source code will be generated dynamically.
 
-Note that I've used `$#` to indicate that what follows is an argument. We don't want to replace every occurrence of `'lat'` and `'long'` with the arguments; want we? The reason for using `$#` as a marker is that it presents (almost) no collision with foreign tokens.
+Note that I've used `$#` to mark what follows as an argument. We don't want to replace every occurrence of `'lat'` and `'long'` with the arguments; want we?, so we need to tell where we want the replacements to happen. The reason for using `$#` as a marker is that it presents (almost) no collision with foreign tokens.
+
+Task 2: Hybrid Compilation
+--
+If we get back to our examples above, we will see that these methods have two parts: (1) a Smalltalk header including the pragma and (2) foreign code. This accounts for hybrid compilation. We need to, at least, parse the beginning of method to read the pragma that tells which compiler to use and then pass the body to said compiler. For doing all of this we will need the following classes
+
+```
+Object
+	subclass: #HybridCompiler
+	instanceVariableNames: 'source smalltalk foreing result'
+	classVariableNames: ''
+	poolDictionaries: ''
+```
