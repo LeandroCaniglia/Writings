@@ -37,7 +37,7 @@ canSimulateCase
 	};
 ```
 
-One difference with tagged nodes is that here the _entire method_ is written in a foreign language. Why this variation is interesting? Because it will allow us to pass Smalltalk arguments to foreign method. Like this:
+One difference with tagged nodes is that here the _entire method body_ is written in a foreign language. Why this variation is interesting? Because it will allow us to pass Smalltalk arguments to foreign methods. Like this:
 ```smalltalk
 jsonCoordinates: lat longitue: long
   <json>
@@ -46,3 +46,6 @@ jsonCoordinates: lat longitue: long
       "longitude": #long
     }
 ```
+meaning that the foreign source code will be generated dynamically.
+
+Note that I've used `$#` to indicate that what follows is an argument. We don't want to replace every occurrence of `'lat'` and `'long'` with the arguments; want we? The reason for using `$#` as a marker is that it presents (almost) no collision with foreign tokens.
