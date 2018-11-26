@@ -19,9 +19,9 @@ Where to start? Here is the roadmap:
 
 1. Discuss the introduction of pragmas for enabling foreign compilation.
 2. Introduce the `HybridCompiler` class.
-3. Consider the introduction of foreign parsers such as a `JsonParser`.
-4. Introduce a new class of AST node named `ForeignNode`.
-5. Process the body of the foreign script, according to its semantics.
+3. Generate the hybrid method when there are no arguments.
+4. Introduce the `ParametricString` class.
+5. Generate the hybrid method when there are arguments.
 
 Task 1: Discussion
 --
@@ -50,16 +50,33 @@ meaning that the foreign source code will be generated dynamically.
 
 Note that I've used `$#` to mark what follows as an argument. We don't want to replace every occurrence of `'lat'` and `'long'` with the arguments; want we?, so we need to tell where we want the replacements to happen. The reason for using `$#` as a marker is that it presents (almost) no collision with foreign tokens.
 
-Task 2: Hybrid Compilation
+Task 2: Hybrid Compiler
 --
 If we get back to our examples above, we will see that these methods have two parts: (1) a Smalltalk header including the pragma and (2) the foreign code. This accounts for hybrid compilation. We need to, at least, parse the beginning of the method to read the pragma that tells which compiler to pick, and then pass it the body. For doing all of this we will need the following class
 
 ```javascript
 Object
 	subclass: #HybridCompiler
-	instanceVariableNames: 'source smalltalk foreing result'
+	instanceVariableNames: 'source smalltalk foreing method'
 	classVariableNames: ''
 	poolDictionaries: ''
 ```
 
-The `smalltalk` ivar is initialized to the Smalltalk compiler, and `foreign` with the compiler (or parser) associated to the method's pragma. When the `source` is set, the `smalltalk` compiler is used to read the pragma (`'json'` in our example). At this point the `Registry` (see Story 3) will provide us with the `foreign` parser. If there is no pragma or there is one which is not in the `Registry`, the compilation is entirely on `smalltalk`. The `result` ivar will hold the compilation result.
+The `smalltalk` ivar is initialized to the Smalltalk compiler, and `foreign` with the compiler (or parser) associated to the method's pragma. When the `source` is set, the `smalltalk` compiler is used to read the pragma (`'json'` in our example). At this point the `Registry` (see **Story 3**) will provide us with the `foreign` parser. If there is no pragma or there is one which is not in the `Registry`, the compilation is entirely on `smalltalk`. The `method` ivar will hold the compilation result.
+
+Task 3: Hybrid method
+--
+
+Once an instance of `HybridCompiler` has been initialized. It is time to compile the method. For now we will assume that there are no arguments (_unary_ case).
+```smalltalk
+HybriCompiler >> compile
+  | cm |
+  foreign isNil ifTrue: [^smalltalk compileMethod: source].
+  ast := foreign parse: self body.
+  cm := smalltalk compileMethod: self template.
+  method := ForeignMethod from: cm.
+  method
+    sourceCode: source;
+    foreignCode: ast format;
+    foreignParser: foreign
+```
