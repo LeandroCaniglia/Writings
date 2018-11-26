@@ -54,7 +54,7 @@ Task 2: Hybrid Compilation
 --
 If we get back to our examples above, we will see that these methods have two parts: (1) a Smalltalk header including the pragma and (2) the foreign code. This accounts for hybrid compilation. We need to, at least, parse the beginning of the method to read the pragma that tells which compiler to pick, and then pass it the body. For doing all of this we will need the following class
 
-```ruby
+```smalltalk
 Object
 	subclass: #HybridCompiler
 	instanceVariableNames: 'source smalltalk foreing result'
