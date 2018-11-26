@@ -71,7 +71,7 @@ Once an instance of `HybridCompiler` has been initialized. It is time to compile
 ```
 HybriCompiler >> compile
   | cm |
-  foreign isNil ifTrue: [^smalltalk compileMethod: source].
+  foreign isNil ifTrue: [^method := smalltalk compileMethod: source].
   ast := foreign parse: self body.
   cm := smalltalk compileMethod: self template.
   method := ForeignMethod from: cm.
@@ -80,3 +80,9 @@ HybriCompiler >> compile
     foreignCode: ast format;
     foreignParser: foreign
 ```
+
+There are several things to explain here:
+
+- The `#body` method, with the help of the `smalltalk` parser, answers with the foreign _body_, i.e., the part of the `source` code that comes after the pragma.
+- The `#template` method answers with the source code of the Smalltalk method that will actually be executed when the hybrid method is invoked.
+- The `ForeignMethod` class is a subclass of `CompiledMethod` that adds support to certain messages required for these hybrid methods.
