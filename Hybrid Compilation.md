@@ -68,7 +68,7 @@ Task 3: Hybrid method
 --
 
 Once an instance of `HybridCompiler` has been initialized. It is time to compile the method. For now we will assume that there are no arguments (_unary_ case).
-```ruby
+```
 HybriCompiler >> compile
   | cm |
   foreign isNil ifTrue: [^smalltalk compileMethod: source].
