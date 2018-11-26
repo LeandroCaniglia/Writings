@@ -62,4 +62,4 @@ Object
 	poolDictionaries: ''
 ```
 
-The `smalltalk` ivar is initialized to the Smalltalk compiler, and `foreign` to the compiler (or parser) associated to the method's pragma. When the `source` is set, the `smalltalk` compiler is used to read the pragma (`'json'` in our example). At this point the `Registry` (see Story 3) will provide us with the `foreign` parser. If there is no pragma or there is one which is not in the `Registry`, the compilation is entirely on `smalltalk`. The `result` ivar will hold the compilation result.
+The `smalltalk` ivar is initialized to the Smalltalk compiler, and `foreign` with the compiler (or parser) associated to the method's pragma. When the `source` is set, the `smalltalk` compiler is used to read the pragma (`'json'` in our example). At this point the `Registry` (see Story 3) will provide us with the `foreign` parser. If there is no pragma or there is one which is not in the `Registry`, the compilation is entirely on `smalltalk`. The `result` ivar will hold the compilation result.
