@@ -25,7 +25,7 @@ canSimulateCase
 	};
 ```
 The difference with tagged nodes is that here the entire method is written in a foreign language. Why this variation is interesting? Because it will allow us to pass foreign methods Smalltalk arguments. Here is an example:
-```json
+```smalltalk
 jsonCoordinates: lat longitue: long
   <json>
   ^{
