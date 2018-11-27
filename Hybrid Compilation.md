@@ -147,6 +147,9 @@ Since the source code will be now a bit more complex, I will use the `#streamCon
 
 ```
 template
+  | arguments processor |
+  arguments := self arguments.
+  processor := ParametricString from: self body tokens: arguments.
   ^String streamContents: [:strm |
     strm
       nextPutAll: self selector;
@@ -156,14 +159,13 @@ template
       nextPutAll: '#code.';
       crtab;
       nextPutAll: '#parser.';
-      crtab.
-    processor := ParametricString from: self body tokens: self arguments.
-    strm nextPutAll: 'ast := #parser value parse: (#code expandUsing: #('.
-    self arguments
+      crtab;
+      nextPutAll: 'ast := #parser parse: (#code expandUsing: #('.
+    arguments
       do: [:arg | strm nextPutAll: arg]
       separatedBy: [strm space].
     strm
-      nextPutAll: ').';
+      nextPutAll: ')).';
       crtab;
       nextPutAll: '^ast format']
 ```
