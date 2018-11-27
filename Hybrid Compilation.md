@@ -86,6 +86,7 @@ There are several things to explain here:
 - The `#body` method, with the help of the `smalltalk` parser, answers with the foreign _body_, i.e., the part of the `source` code that comes after the pragma.
 - The `#template` method answers with the source code of the Smalltalk method that will actually be executed when the hybrid method is invoked.
 - The `ForeignMethod` class is a subclass of `CompiledMethod` that adds support to certain messages required from hybrid methods.
+- The `#format` message sent to the `ast` is optional. I would recommend including it because it is nice to have your foreign code formatted as soon as you save your method.
 
 In the _unary_ case we are now, the `#template` method has the following source code
 ```ruby
@@ -95,7 +96,7 @@ template
   #parser.
   ^#code'
 ```
-where the `#selector` method answers, with the help of the `smalltalk` compiler, the method selector and the following two symbols are placeholders for two slots in the literal frame that we will change below. Note that the method will answer with the contents of the first literal slot.
+where `#selector` answers, with the help of the `smalltalk` compiler, the method's selector; the following two symbols are placeholders for two slots in the literal frame that we will change below. Note that the compiled method will answer with the contents of the first literal slot.
 
 ```
 ForeignMethod >> foreignCode: aString
@@ -105,3 +106,5 @@ ForeignMethod >> foreignCode: aString
 ForeignMethod >> foreignParser: aParser
   self literalAt: 2 put: aParser
 ```
+
+The second literal holds the foreign parser, which may be needed for further processing (e.g., painting the source code).
