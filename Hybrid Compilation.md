@@ -95,7 +95,7 @@ template
   #parser.
   ^#code'
 ```
-where the `#selector` method answers, with the help of the `smalltalk` compiler, the method selector and the following two symbols are placeholders for two slots in the literal frame that we will change below. Note that the method will answer with the contents of the first literal.
+where the `#selector` method answers, with the help of the `smalltalk` compiler, the method selector and the following two symbols are placeholders for two slots in the literal frame that we will change below. Note that the method will answer with the contents of the first literal slot.
 
 ```
 ForeignMethod >> foreignCode: aString
