@@ -133,7 +133,7 @@ with the somewhat clearer Squeak-braces syntax, this would be
 
 Later on, when the object is required to _expand_ the tokens using actual arguments it will replace the indexes with the corresponding values, concatenating them all. The message to do this will be
 ```
-aParametricString expandUsing: aCollection`.
+aParametricString expandWith: arg1 with: arg2 ...
 ```
 
 Task 5: Hybrid method with arguments
@@ -160,12 +160,16 @@ template
       crtab;
       nextPutAll: '#parser.';
       crtab;
-      nextPutAll: 'ast := #parser parse: (#code expandUsing: {'.
+      nextPutAll: 'ast := #parser parse: (#code expandWith: '.
     arguments
       do: [:arg | strm nextPutAll: arg]
-      separatedBy: [strm nextPutAll: '. '].
+      separatedBy: [strm nextPutAll: ' with: '].
     strm
-      nextPutAll: '}).';
+      nextPutAll: ').';
       crtab;
       nextPutAll: '^ast format']
+```
+A key remark here is that in order to connect `processor` with: `#code` we need to make sure we plug the `processor` in the first literal slot, where `#code` acts as its placeholder. This is achieved by a modification to the `#compile` method we saw in **Task 3**. Instead of sending `ast format` as the argument of `foreignCode:` we need to send
+```
+ParametricString from: code tokens: self arguments.
 ```
