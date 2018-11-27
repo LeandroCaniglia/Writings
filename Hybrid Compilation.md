@@ -157,7 +157,7 @@ template
       crtab;
       nextPutAll: '#parser.';
       crtab.
-    processor := ParametricString from: self body arguments: self arguments.
+    processor := ParametricString from: self body tokens: self arguments.
     strm nextPutAll: 'ast := #parser value parse: (#code expandUsing: #('.
     self arguments
       do: [:arg | strm nextPutAll: arg]
