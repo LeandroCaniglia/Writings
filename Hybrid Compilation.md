@@ -126,5 +126,9 @@ the object should generate the following sequence:
 ```
 #('hello ' 3 ', this is a ' 1 '.')
 ```
+with the somewhat clearer Squeak-braces syntax, this would be
+```
+{'hello'. 3. ', this is a '. 1. '.'}
+```
 
 Later on, when the object is required to _expand_ the tokens using actual arguments it will replace the indexes with the corresponding values, concatenating them all. The message to do this will be `#expandUsing: aCollection`.
