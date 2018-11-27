@@ -124,7 +124,7 @@ Basically this new object takes `aString` including _hashed tokens_ and a sequen
 the object should generate the following sequence:
 
 ```
-#('hello ' 3 ', this is a ', 1, '.')
+#('hello ' 3 ', this is a ' 1 '.')
 ```
 
 Later on, when the object is required to _expand_ the tokens using actual arguments it will replace the indexes with the corresponding values, concatenating them all.
