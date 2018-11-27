@@ -108,3 +108,23 @@ ForeignMethod >> foreignParser: aParser
 ```
 
 The second literal holds the foreign parser, which may be needed for further processing (e.g., painting the source code).
+
+Task 4: Macro Expansion
+--
+
+We will now address the case where the method has arguments which are inserted in the foreign code using `#` as the marker prefix. Let's refer to these prefixed identifiers as _hashed tokens_.
+
+What we need is to dynamically replace all hashed tokens with the corresponding arguments. For doing this we will introduce a new class named `ParametricString`, which will implement this transformation as a service.
+
+Basically this new object takes `aString` including _hashed tokens_ and a sequence of all possible tokens (in our case, the sequence of method arguments). Using this information the object produces a sequence of strings and indexes. The strings are the fragments between _hashed tokens_, the indexes refer to the sequence of _hashed tokens_. For instance if the inputs are:
+
+- `'hello #world, this is a #test'.`
+- `#('test' 'dummy' 'word')`
+
+the object should generate the following sequence:
+
+```
+#('hello ' 3 ', this is a ', 1, '.')
+```
+
+Later on, when the object is required to _expand_ the tokens using actual arguments it will replace the indexes with the corresponding values, concatenating them all.
