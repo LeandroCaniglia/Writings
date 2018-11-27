@@ -5,7 +5,7 @@ Leandro Caniglia - November 26, 2018
 
 Have you ever heard of the idea the creators of Smalltalk had for allowing any class to choose its compiler? To provide support for this classes respond to the `#compiler` message before the actual compilation is attempted. Why then, this capability hasn't been exploited yet? Are you willing to investigate it further? OK, bear with me.
 
-In Story 3 of this series we discussed how to inline `TaggedNodes` in a Smalltalk method. We mentioned several applications of this capability and took JSON as a basic example. Today we can take a similar approach and try to see how to do our exploration with JSON in mind. From there it will be fairly clear how to proceed in other cases. So, let's put ourselves this objective: compile the following method in our Smalltalk dialect:
+In Story 3 of this series we discussed how to inline `TaggedNodes` in a Smalltalk method. We mentioned several applications of this capability and took JSON as a basic example. Today we can take a similar approach and try to see how to do our exploration with JSON in mind. From there it will become fairly clear how to proceed in other cases. So, let's put ourselves this objective: compile the following method in our Smalltalk dialect:
 ```json
 jsonCoordinates
   <json>
@@ -26,7 +26,7 @@ Where to start? Here is the roadmap:
 Task 1: Discussion
 --
 
-Let's start by noticing how our example above is slightly different from what we did in Story 3. Here `<json>` is not a _tag_ but a _pragma_ (there is no closing tag). We are using this pragma to make it clear that we will be using a foreign compiler.
+Let's start by noticing how our example above is slightly different from what we did in **Story 3**. Here `<json>` is not a _tag_ but a _pragma_ (there is no closing tag). We are using this pragma to make it clear that we will be using a foreign compiler.
 
 A similar example with JavaScript
 ```javascript
@@ -48,7 +48,7 @@ jsonCoordinates: lat longitue: long
 ```
 meaning that the foreign source code will be generated dynamically.
 
-Note that I've used `$#` to mark what follows as an argument. We don't want to replace every occurrence of `'lat'` and `'long'` with the arguments; want we?, so we need to tell where we want the replacements to happen. The reason for using `$#` as a marker is that it presents (almost) no collision with foreign tokens.
+Note that I've used `#` to mark what follows as an argument. We don't want to replace every occurrence of `'lat'` and `'long'` with the arguments; do we?, so we need to tell where we want the replacements to happen. The reason for using `#` as a marker is that it presents (almost) no collision with foreign tokens.
 
 Task 2: Hybrid Compiler
 --
@@ -62,12 +62,12 @@ Object
 	poolDictionaries: ''
 ```
 
-The `smalltalk` ivar is initialized to the Smalltalk compiler, and `foreign` with the compiler (or parser) associated to the method's pragma. When the `source` is set, the `smalltalk` compiler is used to read the pragma (`'json'` in our example). At this point the `Registry` (see **Story 3**) will provide us with the `foreign` parser. If there is no pragma or there is one which is not in the `Registry`, the compilation is entirely on `smalltalk`. The `method` ivar will hold the compilation result.
+The `smalltalk` ivar is initialized to the Smalltalk compiler, and `foreign` to the parser (or compiler) associated to the method's pragma. When the `source` is set, the `smalltalk` compiler is used to read the pragma (`'json'` in our example). At this point the `Registry` (see **Story 3**) will provide us with the `foreign` parser. If there is no pragma or there is one which is not in the `Registry`, the compilation is entirely on `smalltalk`. The `method` ivar will hold the compilation result.
 
 Task 3: Hybrid method
 --
 
-Once an instance of `HybridCompiler` has been initialized. It is time to compile the method. For now we will assume that there are no arguments (_unary_ case).
+Once an instance of `HybridCompiler` has been initialized, it is time to compile the method. For now we will assume that there are no arguments (_unary_ case).
 ```
 HybriCompiler >> compile
   | cm |
@@ -171,5 +171,10 @@ template
 ```
 A key remark here is that in order to connect `processor` with: `#code` we need to make sure we plug the `processor` in the first literal slot, where `#code` acts as its placeholder. This is achieved by a modification to the `#compile` method we saw in **Task 3**. Instead of sending `ast format` as the argument of `foreignCode:` we need to send
 ```
-ParametricString from: code tokens: self arguments.
+ParametricString from: code tokens: self arguments
 ```
+
+Final words
+--
+
+As always, the code presented here is just a sketch of the actual code, which might end up being a bit more complex (but not too much!). Also there are lots of details in my description for which I haven't included any code at all. The reason is two folded. Firstly because my goal is to give you a roadmap rather the finished code. Secondly, because I don't want to capture or the fun just for myself.
