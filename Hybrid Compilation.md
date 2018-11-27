@@ -131,4 +131,39 @@ with the somewhat clearer Squeak-braces syntax, this would be
 {'hello'. 3. ', this is a '. 1. '.'}
 ```
 
-Later on, when the object is required to _expand_ the tokens using actual arguments it will replace the indexes with the corresponding values, concatenating them all. The message to do this will be `aParametricString expandUsing: aCollection`.
+Later on, when the object is required to _expand_ the tokens using actual arguments it will replace the indexes with the corresponding values, concatenating them all. The message to do this will be
+```
+aParametricString expandUsing: aCollection`.
+```
+
+Task 5: Hybrid method with arguments
+--
+
+Since we have already worked on the _unary_ case in **Task 3**, we only need to redo the `#template` method for the case where there are arguments.
+
+The first change to consider is that what before was simply the `selector`, it is now a keyword message with the formal arguments. This can be simply accomplished with the help of the `smalltalk` compiler, so I will not go in detail here. We will just assume that `self selector` will answer with the signature of the method (i.e., `'keyword1: arg1 keyword2: arg2'`...).
+
+Since the source code will be now a bit more complex, I will use the `#streamContents:` constructor.
+
+```
+template
+  ^String streamContents: [:strm |
+    strm
+      nextPutAll: self selector;
+      crtab;
+      nextPutAll: '| ast |';
+      crtab;
+      nextPutAll: '#code.';
+      crtab;
+      nextPutAll: '#parser.';
+      crtab.
+    processor := ParametricString from: self body arguments: self arguments.
+    strm nextPutAll: 'ast := #parser value parse: (#code expandUsing: #('.
+    self arguments
+      do: [:arg | strm nextPutAll: arg]
+      separatedBy: [strm space].
+    strm
+      nextPutAll: ').';
+      crtab;
+      nextPutAll: '^ast format']
+```
