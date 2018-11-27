@@ -160,7 +160,7 @@ template
       crtab;
       nextPutAll: '#parser.';
       crtab;
-      nextPutAll: 'ast := #parser parse: (#code expandUsing: {}'.
+      nextPutAll: 'ast := #parser parse: (#code expandUsing: {'.
     arguments
       do: [:arg | strm nextPutAll: arg]
       separatedBy: [strm nextPutAll: '. '].
