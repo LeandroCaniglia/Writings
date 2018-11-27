@@ -177,4 +177,4 @@ ParametricString from: code tokens: self arguments
 Final words
 --
 
-As always, the code presented here is just a sketch of the actual code, which might end up being a bit more complex (but not too much!). Also there are lots of details in my description for which I haven't included any code at all. The reason is two folded. Firstly because my goal is to give you a roadmap rather the finished code. Secondly, because I don't want to capture or the fun just for myself.
+As always, the code presented here is just a sketch of the actual code, which might end up being a bit more complex (but not too much!). Also there are lots of details in my description for which I haven't included any code at all. The reason is two folded. Firstly, my goal is to provide a roadmap rather loadable code. Secondly, I don't want to capture all the fun just for myself.
